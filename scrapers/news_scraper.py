@@ -102,6 +102,31 @@ class NewsScraper:
                 
         return articles
     
+    def search_adam_minsky_articles(self) -> List[Dict]:
+        """
+        Search for Adam Minsky articles using Google Custom Search
+        """
+        articles = []
+        search_queries = [
+            '"Adam Minsky" + "student loan" site:forbes.com',
+            '"Adam Minsky" + "student loan" site:studentloanhero.com',
+            '"Adam Minsky" + "student loan" site:studentloanplanner.com'
+        ]
+        
+        for query in search_queries:
+            try:
+                # Use NewsAPI to search for these specific queries
+                query_articles = self.fetch_news_api_articles(query, days_back=7)
+                for article in query_articles:
+                    article['content_type'] = 'expert_article'
+                    article['source'] = 'Adam Minsky via ' + article.get('source', 'Unknown')
+                articles.extend(query_articles)
+            except Exception as e:
+                print(f"Error searching for Adam Minsky articles: {e}")
+                continue
+                
+        return articles
+
     def get_all_news(self) -> List[Dict]:
         """
         Fetch news from all sources and combine them
@@ -116,6 +141,10 @@ class NewsScraper:
         # Fetch from RSS feeds
         rss_articles = self.fetch_rss_feeds()
         all_articles.extend(rss_articles)
+        
+        # Search for Adam Minsky articles
+        adam_articles = self.search_adam_minsky_articles()
+        all_articles.extend(adam_articles)
         
         # Remove duplicates based on URL
         seen_urls = set()

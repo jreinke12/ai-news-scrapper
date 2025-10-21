@@ -142,10 +142,10 @@ class YouTubeScraper:
             channel_videos = self.get_channel_videos(channel_id, max_results=3)
             all_videos.extend(channel_videos)
         
-        # Search for trending financial topics
-        search_queries = [
+        # Search for trending financial topics and expert content
+        search_queries = YOUTUBE_EXPERT_SEARCHES + [
             "student loan forgiveness 2025",
-            "PSLF public service loan forgiveness",
+            "PSLF public service loan forgiveness", 
             "personal finance tips 2025",
             "inflation impact young adults"
         ]

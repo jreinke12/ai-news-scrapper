@@ -38,12 +38,13 @@ class EmailSystem:
         time_str = now.strftime("%I:%M %p %Z")
         
         # Start building the digest
-        digest = f"""🗓️ Date: {date_str}
-🕒 Compiled automatically at {time_str}
+        digest = f"""Date: {date_str}
+Compiled automatically at {time_str}
 
----
+===============================================
 
-### 🔥 Top Financial Stories for Young Professionals
+TOP FINANCIAL STORIES FOR YOUNG PROFESSIONALS
+===============================================
 
 """
         
@@ -55,31 +56,39 @@ class EmailSystem:
             summary = content.get('fitbux_summary', 'Summary not available')
             content_type = content.get('content_type', '')
             
-            # Add emoji based on content type
-            type_emoji = {
-                'news': '📰',
-                'reddit_post': '💬',
-                'reddit_discussion': '🤔',
-                'youtube_video': '📺',
-                'youtube_search': '🔍'
-            }.get(content_type, '📄')
+            # Add type indicator based on content type
+            type_indicator = {
+                'news': '[NEWS]',
+                'reddit_post': '[REDDIT]',
+                'reddit_discussion': '[DISCUSSION]',
+                'youtube_video': '[VIDEO]',
+                'youtube_search': '[YOUTUBE]',
+                'expert_article': '[EXPERT]'
+            }.get(content_type, '[ARTICLE]')
             
-            digest += f"""**{i}. {type_emoji} {title}**
-Source: {source} – [Read More]({url})
-**Summary:** {summary}
-
+            digest += f"""{i}. {type_indicator} {title}
+   Source: {source}
+   Link: {url}
+   
+   Summary: {summary}
+   
+   {'-' * 60}
+   
 """
         
         # Add FitBUX Perspective
-        digest += f"""---
+        digest += f"""
+===============================================
 
-### 🧭 FitBUX Perspective
+FITBUX PERSPECTIVE
+===============================================
+
 {processed_content['fitbux_perspective']}
 
----
+===============================================
 
-*This digest was automatically compiled by the FitBUX Financial News Curator Agent.*
-*For questions or feedback, contact jreinke@fitbux.com*
+This digest was automatically compiled by the FitBUX Financial News Curator Agent.
+For questions or feedback, contact jreinke@fitbux.com
 """
         
         return digest

@@ -45,7 +45,15 @@ REDDIT_SUBREDDITS = [
 # YouTube Channels to Monitor
 YOUTUBE_CHANNELS = [
     "UCStudentLoanPlanner",  # Student Loan Planner
-    "UCStanleyTate"  # Stanley Tate (you'll need to get the actual channel IDs)
+    "UCStanleyTate"  # Stanley Tate
+]
+
+# Additional YouTube search terms for specific experts
+YOUTUBE_EXPERT_SEARCHES = [
+    "Adam Minsky student loans",
+    "Student Loan Planner Travis",
+    "Stanley Tate PSLF",
+    "student loan forgiveness 2025"
 ]
 
 # Search Queries for News
