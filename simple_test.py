@@ -4,6 +4,10 @@ Simple test script for the FitBUX Financial News Curator Agent
 import os
 import sys
 from datetime import datetime
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 def test_environment():
     """Test if all required environment variables are set"""

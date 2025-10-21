@@ -3,7 +3,10 @@ YouTube scraping module for financial channels
 """
 from googleapiclient.discovery import build
 from typing import List, Dict
-from config import *
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config.config import *
 from datetime import datetime, timedelta
 
 class YouTubeScraper:

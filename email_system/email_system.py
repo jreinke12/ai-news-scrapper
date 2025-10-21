@@ -10,7 +10,9 @@ from email import encoders
 from datetime import datetime
 import pytz
 from typing import List, Dict
-from config import *
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config.config import *
 
 class EmailSystem:
     def __init__(self):

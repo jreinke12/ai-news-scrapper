@@ -3,7 +3,10 @@ AI summarization module using OpenAI with FitBUX brand voice
 """
 import openai
 from typing import List, Dict
-from config import *
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config.config import *
 import json
 import os
 
@@ -17,7 +20,8 @@ class AISummarizer:
     def _load_brand_guidelines(self) -> str:
         """Load brand guidelines from file"""
         try:
-            with open('brand_guidelines.md', 'r', encoding='utf-8') as f:
+            brand_file = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'config', 'brand_guidelines.md')
+            with open(brand_file, 'r', encoding='utf-8') as f:
                 return f.read()
         except FileNotFoundError:
             return "Use FitBUX's Innocent Everyman voice: calm, trustworthy, educational, and empowering."

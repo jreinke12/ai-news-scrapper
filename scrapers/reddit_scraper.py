@@ -3,7 +3,10 @@ Reddit scraping module for financial subreddits
 """
 import praw
 from typing import List, Dict
-from config import *
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from config.config import *
 from datetime import datetime, timedelta
 
 class RedditScraper:
