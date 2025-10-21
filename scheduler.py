@@ -17,7 +17,7 @@ class NewsScheduler:
         """Set up the scheduling based on configuration"""
         
         # Weekday schedule (Monday-Friday): 6am, 9am, 12pm, 3pm, 5pm CST
-        for time_str in config.SCHEDULE_CONFIG['weekdays']['times']:
+        for time_str in SCHEDULE_CONFIG['weekdays']['times']:
             schedule.every().monday.at(time_str).do(self.run_curator_job)
             schedule.every().tuesday.at(time_str).do(self.run_curator_job)
             schedule.every().wednesday.at(time_str).do(self.run_curator_job)
@@ -25,7 +25,7 @@ class NewsScheduler:
             schedule.every().friday.at(time_str).do(self.run_curator_job)
         
         # Weekend schedule (Saturday-Sunday): 6pm CST
-        for time_str in config.SCHEDULE_CONFIG['weekends']['times']:
+        for time_str in SCHEDULE_CONFIG['weekends']['times']:
             schedule.every().saturday.at(time_str).do(self.run_curator_job)
             schedule.every().sunday.at(time_str).do(self.run_curator_job)
         
