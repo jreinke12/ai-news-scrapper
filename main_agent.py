@@ -12,7 +12,7 @@ from scrapers.reddit_scraper import RedditScraper
 from scrapers.youtube_scraper import YouTubeScraper
 from ai_processing.ai_summarizer import AISummarizer
 from ai_processing.duplicate_tracker import DuplicateTracker
-from email.email_system import EmailSystem
+from email_system.email_system import EmailSystem
 from config.config import *
 
 def run_news_curator() -> bool:
