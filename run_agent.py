@@ -14,6 +14,7 @@ load_dotenv()
 from scrapers.news_scraper import NewsScraper
 from scrapers.reddit_scraper import RedditScraper
 from scrapers.youtube_scraper import YouTubeScraper
+from scrapers.studentaid_scraper import StudentAidScraper
 from ai_processing.ai_summarizer import AISummarizer
 from ai_processing.duplicate_tracker import DuplicateTracker
 from email_system.email_system import EmailSystem
@@ -32,6 +33,9 @@ def run_news_curator():
         
         print("Initializing YouTube scraper...")
         youtube_scraper = YouTubeScraper()
+        
+        print("Initializing StudentAid scraper...")
+        studentaid_scraper = StudentAidScraper()
         
         print("Initializing AI summarizer...")
         ai_summarizer = AISummarizer()
@@ -60,8 +64,13 @@ def run_news_curator():
         youtube_videos = youtube_scraper.get_all_youtube_content()
         print(f"    Found {len(youtube_videos)} YouTube videos")
         
+        # Get StudentAid.gov content
+        print("  Fetching StudentAid.gov updates...")
+        studentaid_content = studentaid_scraper.get_all_studentaid_content()
+        print(f"    Found {len(studentaid_content)} StudentAid articles")
+        
         # Combine all content
-        all_content = news_articles + reddit_posts + youtube_videos
+        all_content = news_articles + reddit_posts + youtube_videos + studentaid_content
         print(f"\nTotal content collected: {len(all_content)} items")
         
         if not all_content:
@@ -80,9 +89,10 @@ def run_news_curator():
         # Process content with AI
         print("\nProcessing content with AI...")
         processed_content = ai_summarizer.process_all_content(
-            news_articles=[item for item in filtered_content if item.get('content_type') == 'news'],
+            news_articles=[item for item in filtered_content if item.get('content_type') in ['news', 'rss']],
             reddit_posts=[item for item in filtered_content if 'reddit' in item.get('content_type', '')],
-            youtube_videos=[item for item in filtered_content if 'youtube' in item.get('content_type', '')]
+            youtube_videos=[item for item in filtered_content if 'youtube' in item.get('content_type', '')],
+            studentaid_content=[item for item in filtered_content if 'studentaid' in item.get('content_type', '')]
         )
         
         # Send email digest

@@ -45,16 +45,16 @@ class NewsScheduler:
             success = run_news_curator()
             
             if success:
-                print(f"✅ News curator completed successfully at {current_time}")
+                print(f"SUCCESS: News curator completed successfully at {current_time}")
             else:
-                print(f"❌ News curator failed at {current_time}")
+                print(f"ERROR: News curator failed at {current_time}")
                 
         except Exception as e:
-            print(f"❌ Error running news curator: {e}")
+            print(f"ERROR: Error running news curator: {e}")
     
     def run_scheduler(self):
         """Run the scheduler (blocking)"""
-        print("🚀 FitBUX News Curator Scheduler started")
+        print("FitBUX News Curator Scheduler started")
         print("Press Ctrl+C to stop")
         
         try:
@@ -62,11 +62,11 @@ class NewsScheduler:
                 schedule.run_pending()
                 time.sleep(60)  # Check every minute
         except KeyboardInterrupt:
-            print("\n🛑 Scheduler stopped by user")
+            print("\nScheduler stopped by user")
     
     def run_once(self):
         """Run the curator once immediately (for testing)"""
-        print("🧪 Running FitBUX News Curator once (test mode)")
+        print("Running FitBUX News Curator once (test mode)")
         self.run_curator_job()
     
     def get_next_run_times(self):
@@ -85,7 +85,7 @@ class NewsScheduler:
     
     def print_schedule_status(self):
         """Print current schedule status"""
-        print("\n📅 Current Schedule Status:")
+        print("\nCurrent Schedule Status:")
         print("-" * 40)
         
         next_runs = self.get_next_run_times()

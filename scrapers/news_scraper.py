@@ -73,17 +73,30 @@ class NewsScraper:
         """
         rss_feeds = [
             "https://feeds.bloomberg.com/markets/news.rss",
-            "https://feeds.reuters.com/reuters/businessNews",
+            "https://www.forbes.com/business/feed/",  # Forbes business news
             "https://www.cnbc.com/id/100003114/device/rss/rss.html",
             "https://feeds.marketwatch.com/marketwatch/topstories/",
-            "https://feeds.finance.yahoo.com/rss/2.0/headline",
+            "https://feeds.finance.yahoo.com/rss/2.0/headline",  # Yahoo Finance (may be rate limited)
         ]
         
         articles = []
         
         for feed_url in rss_feeds:
             try:
+                # Add delay to prevent rate limiting
+                import time
+                time.sleep(3)  # Increased to 3 seconds for better rate limiting
+                
                 feed = feedparser.parse(feed_url)
+                
+                # Check if feed was successfully parsed
+                if hasattr(feed, 'status') and feed.status >= 400:
+                    print(f"RSS feed {feed_url} returned error status: {feed.status}")
+                    continue
+                
+                if not feed.entries:
+                    print(f"No entries found in RSS feed: {feed_url}")
+                    continue
                 
                 for entry in feed.entries[:5]:  # Limit to 5 per feed
                     if hasattr(entry, 'title') and hasattr(entry, 'summary'):
@@ -104,13 +117,16 @@ class NewsScraper:
     
     def search_adam_minsky_articles(self) -> List[Dict]:
         """
-        Search for Adam Minsky articles using Google Custom Search
+        Search for Adam Minsky articles using multiple approaches
         """
         articles = []
+        
+        # Approach 1: NewsAPI search
         search_queries = [
-            '"Adam Minsky" + "student loan" site:forbes.com',
-            '"Adam Minsky" + "student loan" site:studentloanhero.com',
-            '"Adam Minsky" + "student loan" site:studentloanplanner.com'
+            '"Adam Minsky" + "student loan"',
+            '"Adam Minsky" + "PSLF"',
+            '"Adam Minsky" + "loan forgiveness"',
+            '"Adam Minsky" + "student debt"'
         ]
         
         for query in search_queries:
@@ -124,7 +140,13 @@ class NewsScraper:
             except Exception as e:
                 print(f"Error searching for Adam Minsky articles: {e}")
                 continue
-                
+        
+        # Approach 2: Direct site searches (if NewsAPI doesn't work)
+        if not articles:
+            print("No Adam Minsky articles found via NewsAPI, trying direct searches...")
+            # This would require additional implementation for direct site scraping
+            # For now, we'll rely on NewsAPI and RSS feeds
+        
         return articles
 
     def get_all_news(self) -> List[Dict]:

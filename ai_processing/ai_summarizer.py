@@ -136,7 +136,7 @@ class AISummarizer:
             print(f"Error creating FitBUX perspective: {e}")
             return "Today's financial landscape continues to evolve, and staying informed helps you make confident decisions about your money. Remember, you're not alone in navigating these changes - thousands of professionals like you are building their financial future one step at a time."
     
-    def process_all_content(self, news_articles: List[Dict], reddit_posts: List[Dict], youtube_videos: List[Dict]) -> Dict:
+    def process_all_content(self, news_articles: List[Dict], reddit_posts: List[Dict], youtube_videos: List[Dict], studentaid_content: List[Dict] = None) -> Dict:
         """
         Process all content and create summaries
         
@@ -144,11 +144,14 @@ class AISummarizer:
             news_articles: List of news articles
             reddit_posts: List of Reddit posts
             youtube_videos: List of YouTube videos
+            studentaid_content: List of StudentAid.gov content
             
         Returns:
             Dictionary with processed content and summaries
         """
         all_content = news_articles + reddit_posts + youtube_videos
+        if studentaid_content:
+            all_content.extend(studentaid_content)
         
         # Summarize each piece of content
         summarized_content = []
